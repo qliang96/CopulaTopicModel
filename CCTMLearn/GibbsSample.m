@@ -1,6 +1,6 @@
-function [ Z,Eta ] = GibbsSample(W,beta,mu,Sigma,NPNEta)
+function [ lZ,lEta ] = GibbsSample(W,beta,mu,Sigma,NPNEta)
 %gibbs sample from W,beta,mu,Sigma,Eta
-%return the expectated Z,Eta from posterior distribution
+%return the expectated Z,Eta from posterior distribution (last 100 samples)
     % using empirical mean from burned in samples
 %need to defind the burn in status
 
@@ -54,4 +54,6 @@ for ite=1:5000
        end       
     end
 end
+
+
 

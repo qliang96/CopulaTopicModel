@@ -10,12 +10,8 @@ function [Z] = SampleZ(beta,W,LastZ,LastEta)
  %and sample from it
 [m,k] = size(LastEta);
 V = size(W,2);
-WordTopicCnt = zeros(V,k);
+WordTopicCnt = CountWordTopic(LastZ);
 TopicCnt = sum(WordTopicCnt,1)';
-for i=1:k
-    WordTopicCnt(:,i) = sum((LastZ == i),1)';
-end
-
 Z = LastZ;
 
 for i=1:m
