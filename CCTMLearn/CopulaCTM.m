@@ -1,6 +1,6 @@
 function [mu,Sigma, Eta,Phi] = CopulaCTM(W,beta,k)
-%learn the copula topic model parameters from W(doc-word mtx) and beta (dir
-%prior)
+%learn the copula topic model parameters from W((can be sparse)doc-word mtx) and beta (dir
+%prior) 
 %mu,Sigma: the parameter for NPN
 %Eta the Doc-topic prob mtx (DK), used to estimate the empirical cdf F in
 %Phi, the recovered word-topic matrix (V * k)
