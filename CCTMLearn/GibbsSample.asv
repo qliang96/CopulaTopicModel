@@ -18,6 +18,8 @@ SampleSize = 100;
 %init
 Z = randi([1,k],M,V) .* (W~=0);
 Eta = NPNEta;
+lZ = zeros(size(Z,1),size(Z,2),SampleSize);
+lEta = zeros(size(Eta,1),size(Eta,2),SampleSize);
 
 lZ = CreateSparse3DMtx(size(Z,1),size(Z,2),SampleSize);
 lEta = CreateSparse3DMtx(size(Eta,1),size(Eta,2),SampleSize);
@@ -32,13 +34,13 @@ for ite=1:5000
         continue
     end
     
-    lZ{mod(p, SampleSize)} = Z;
-    lEta{mod(p,SampleSize)} = Eta;
+    lZ(:,:,mod(p, SampleSize)) = Z;
+    lEta(:,:,mod(p,SampleSize)) = Eta;
     
     if mod(p,SampleSize) == 0
         %check burn-in in each sample size step.
-       ThisMeanZ = MeanOfSparse3DMtx(lZ);
-       ThisMeanEta = MeanOfSparse3DMtx(lEta);
+       ThisMeanZ = mean(lZ,3);
+       ThisMeanEta = mean(lEta,3);
        
        %check burn in
        ZDiff = sum(sum(abs(ThisMeanZ - LastMeanZ))) / sum(sum(LastMeanZ));

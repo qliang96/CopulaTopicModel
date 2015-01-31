@@ -27,7 +27,7 @@ for i=1:m
     LowerEta(i,:) = log(C .* MaxU ./ (ones(k,1) - MaxU));
     UpperEta(i,:) = log(C .* MinU ./ (ones(k,1) - MinU));
     toc
-    fprintf('[%d/%d] bound sampled\n',i,m);
+    fprintf('
 end
 toc
 
