@@ -14,12 +14,10 @@ function [ lZ,lEta ] = GibbsSample(W,beta,mu,Sigma,NPNEta)
 DiscardFirstN = 100;
 k = size(mu,1);
 [M,V] = size(W);
-SampleSize = 100;
+SampleSize = 10;
 %init
 Z = randi([1,k],M,V) .* (W~=0);
 Eta = NPNEta;
-lZ = zeros(size(Z,1),size(Z,2),SampleSize);
-lEta = zeros(size(Eta,1),size(Eta,2),SampleSize);
 
 lZ = CreateSparse3DMtx(size(Z,1),size(Z,2),SampleSize);
 lEta = CreateSparse3DMtx(size(Eta,1),size(Eta,2),SampleSize);
@@ -27,6 +25,7 @@ LastMeanZ = Z;
 LastMeanEta = Eta;
 
 for ite=1:5000
+    fprintf('Gibbs sa
     Z = SampleZ(beta,W,Z,Eta);
     Eta = SampleEta(mu,Sigma,NPNEta, Z,Eta);
     p = ite - DiscardFirstN;
@@ -34,13 +33,13 @@ for ite=1:5000
         continue
     end
     
-    lZ(:,:,mod(p, SampleSize)) = Z;
-    lEta(:,:,mod(p,SampleSize)) = Eta;
+    lZ{mod(p, SampleSize)} = Z;
+    lEta{mod(p,SampleSize)} = Eta;
     
     if mod(p,SampleSize) == 0
         %check burn-in in each sample size step.
-       ThisMeanZ = mean(lZ,3);
-       ThisMeanEta = mean(lEta,3);
+       ThisMeanZ = MeanOfSparse3DMtx(lZ);
+       ThisMeanEta = MeanOfSparse3DMtx(lEta);
        
        %check burn in
        ZDiff = sum(sum(abs(ThisMeanZ - LastMeanZ))) / sum(sum(LastMeanZ));

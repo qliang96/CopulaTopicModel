@@ -4,11 +4,6 @@ function [X] = SampleUniformMax(st,ed,N)
 % st
 % ed
 % N
-X = zeros(size(st,1),1);
-for i=1:size(X,1)
-    if N(i) == 0        
-        continue
-    end
-    X(i) = max(st(i) * ones(N(i),1) + (ed(i)-st(i)) * rand(N(i),1)); 
-end
-
+f=rand(size(st));
+X = f.^(1.0./N).*(ed - st) + st;
+X(N==0)=0;

@@ -1,0 +1,13 @@
+function [ MaxV ] = FindBoundedMaximum(mu,Sigma,GLower,GUpper)
+%find the maximum in the bound
+%if mu in it, then it is mvnpdf(mu,mu,sigma);
+%otherwise has to solve a qp
+
+if sum(mu < GLower) + sum(mu > Gupper) == 0
+    MaxV = mvnpdf(mu,mu,Sigma);
+    return
+end
+
+
+x = quadprog(inv(Sigma),zeros(size(mu)),[],[],[],[],GLower-mu,GUpper-mu);
+x = x + mu;  %center back at mu

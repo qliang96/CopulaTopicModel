@@ -14,7 +14,7 @@ function [ lZ,lEta ] = GibbsSample(W,beta,mu,Sigma,NPNEta)
 DiscardFirstN = 100;
 k = size(mu,1);
 [M,V] = size(W);
-SampleSize = 100;
+SampleSize = 10;
 %init
 Z = randi([1,k],M,V) .* (W~=0);
 Eta = NPNEta;
@@ -25,6 +25,7 @@ LastMeanZ = Z;
 LastMeanEta = Eta;
 
 for ite=1:5000
+    fprintf('Gibbs sampling [%d] ite\n',ite);
     Z = SampleZ(beta,W,Z,Eta);
     Eta = SampleEta(mu,Sigma,NPNEta, Z,Eta);
     p = ite - DiscardFirstN;

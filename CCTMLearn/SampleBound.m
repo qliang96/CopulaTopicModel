@@ -4,8 +4,8 @@ function [LowerEta,UpperEta] = SampleBound(Z,LastEta)
 %LowerEta, UpperEta is D\times K dim vector showing the lower and upper bound
     %for each document
 
-fprintf('sampling bound\n');
-tic;
+% fprintf('sampling bounds\n');
+% tic;
 LowerEta = zeros(size(LastEta));
 UpperEta = zeros(size(LastEta));
 m = size(LastEta,1);
@@ -26,8 +26,9 @@ for i=1:m
     
     LowerEta(i,:) = log(C .* MaxU ./ (ones(k,1) - MaxU));
     UpperEta(i,:) = log(C .* MinU ./ (ones(k,1) - MinU));
-    toc
-    fprintf('[%d/%d] bound sampled\n',i,m);
+%     fprintf('[%d/%d] bound sampled\n',i,m);
 end
-toc
+% fprintf('bounds sampled\n');
+% toc
+
 
