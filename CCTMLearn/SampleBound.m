@@ -12,7 +12,7 @@ m = size(LastEta,1);
 k = size(LastEta,2);
 TotalC =sum(exp(LastEta),2);
 
-for i=1:m
+parfor i=1:m
     C = TotalC(i) * ones(k,1) - exp(LastEta(i,:)');
     DocTopicProb = exp(LastEta(i,:)');
     DocTopicProb = DocTopicProb ./ sum(DocTopicProb);

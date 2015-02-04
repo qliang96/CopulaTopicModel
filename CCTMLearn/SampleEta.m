@@ -15,7 +15,7 @@ Eta = LastEta;
 
 % fprintf('sample from NPN within bound\n');
 tic;
-for i=1:m
+parfor i=1:m
 
 %     fprintf('start sample for [%d] doc\n',i);
 %     fprintf('bound\n');

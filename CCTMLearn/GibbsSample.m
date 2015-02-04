@@ -11,10 +11,13 @@ function [ lZ,lEta ] = GibbsSample(W,beta,mu,Sigma,NPNEta)
 %check burned in for each S sample, if the mean is similar with mean of S
 %times before, it is burned in.
 
-DiscardFirstN = 100;
+DiscardFirstN = 10;
+SampleSize = 50;
+MaxIte = 500;
+
 k = size(mu,1);
 [M,V] = size(W);
-SampleSize = 10;
+
 %init
 Z = randi([1,k],M,V) .* (W~=0);
 Eta = NPNEta;
@@ -23,8 +26,9 @@ lZ = CreateSparse3DMtx(size(Z,1),size(Z,2),SampleSize);
 lEta = CreateSparse3DMtx(size(Eta,1),size(Eta,2),SampleSize);
 LastMeanZ = Z;
 LastMeanEta = Eta;
+tic
 
-for ite=1:5000
+for ite=1:MaxIte
     fprintf('Gibbs sampling [%d] ite\n',ite);
     Z = SampleZ(beta,W,Z,Eta);
     Eta = SampleEta(mu,Sigma,NPNEta, Z,Eta);
@@ -32,9 +36,9 @@ for ite=1:5000
     if p <= 0
         continue
     end
-    
-    lZ{mod(p, SampleSize)} = Z;
-    lEta{mod(p,SampleSize)} = Eta;
+
+    lZ{mod(p, SampleSize) + 1} = Z;
+    lEta{mod(p,SampleSize) + 1} = Eta;
     
     if mod(p,SampleSize) == 0
         %check burn-in in each sample size step.
@@ -43,9 +47,11 @@ for ite=1:5000
        
        %check burn in
        ZDiff = sum(sum(abs(ThisMeanZ - LastMeanZ))) / sum(sum(LastMeanZ));
+       ZDiff = full(ZDiff);
        EtaDiff = sum(sum(abs(ThisMeanEta - LastMeanEta))) / sum(sum(LastMeanEta));
-       fprintf('%d ite, z diff [%f], Eta diff [%f]\n',ite,ZDiff,EtaDiff);
-       if  ZDiff + EtaDiff < 1.0 / SampleSize
+       fprintf('\n%d ite, z diff [%f], Eta diff [%f]\n\n',ite,ZDiff,EtaDiff);
+       toc
+       if  ZDiff + EtaDiff < 0.1
            fprintf('burned in at [%d] ite\n',ite);
            %Z = ThisMeanZ;
            %Eta = ThisMeanEta;

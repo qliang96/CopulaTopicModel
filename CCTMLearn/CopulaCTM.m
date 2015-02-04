@@ -12,7 +12,7 @@ MaxIte = 100;
 ConvergeRate = 0.01;  %change of mu and Sigma
 
 %random init
-[m,V] = size(W)
+[m,V] = size(W);
 mu = rand(k,1);
 Sigma = diag(rand(k,1));
 NPNEta = rand(m,k);
@@ -21,9 +21,10 @@ for ite = 1:MaxIte
     fprintf('[%d] sampling\n',ite);
     [ lZ,lEta ] = GibbsSample(W,beta,mu,Sigma,NPNEta);
     fprintf('[%d] npn fit\n',ite);
-    NPNEta = mean(lEta,3);
+    NPNEta = MeanOfSparse3DMtx(lEta);
     [ThisMu,ThisSigma] = NPNFit(NPNEta);
-    
+    %add noise at diagnonal to avoid sigularity
+    ThisSigma = ThisSigma + 0.01 * diag(ones(size(ThisSigma,1)));
     MuDiff = sum(abs(ThisMu - mu)) / sum(abs(mu));
     SigmaDiff = sum(sum(abs(ThisSigma - Sigma))) / sum(sum(abs(Sigma)));
     fprintf('[%d] ite diff [%f][%f]\n',ite,MuDiff,SigmaDiff);
@@ -37,6 +38,6 @@ for ite = 1:MaxIte
     end
 end
 
-Phi = RecoverWordTopicProb(lZ,beta);
+Phi = RecoverWordTopicProb(lZ,beta,V,k);
 return
 
