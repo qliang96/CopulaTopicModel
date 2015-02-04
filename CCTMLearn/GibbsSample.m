@@ -13,7 +13,7 @@ function [ lZ,lEta ] = GibbsSample(W,beta,mu,Sigma,NPNEta)
 
 DiscardFirstN = 10;
 SampleSize = 50;
-MaxIte = 500;
+MaxIte = 100;
 
 k = size(mu,1);
 [M,V] = size(W);

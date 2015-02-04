@@ -33,7 +33,7 @@ MaxV = FindBoundedMaximum(mu,Sigma,GLower,GUpper);
 % toc
 
 SampleRound = 10000;
-flag = 1;
+
 SumRej = 0;
 for ite=1:SampleRound
     X = unifrnd(GLower,GUpper);
@@ -43,13 +43,11 @@ for ite=1:SampleRound
 %     fprintf('target pdf [%f]-[%f/%f] rejection rate = [%f]\n',y,PdfValue,MaxV, PdfValue/MaxV);
     if y < PdfValue
 %         fprintf('get sample in [%d] round [%f] rate\n',i,PdfValue / MaxV);
-        flag = 0;
+
         break
     end
 end
-% if flag
-%    fprintf('no sampled res after rejection rate/round [%f/%d]\n',SumRej,SampleRound);
-% end
+
 
 
 for i=1:size(X,1)

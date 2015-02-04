@@ -3,6 +3,9 @@ function [x] = TruncInvECdf(X,F)
 %  X, m: data for ECdf
 %F is the function value
 %return the x = F^{-1}()
+
+%can I make this a matrix operation?
+
 m =size(X,1);
 [f,Y]=ecdf(X);
 pho = 1/(4 * m^0.25 * sqrt(pi * log(m)));
