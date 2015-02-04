@@ -8,7 +8,7 @@ function [ Eta] = SampleEta(mu,Sigma,NPNEta, LastZ,LastEta)
 %will call SampleBound(Z,LastEta) for Eta's lower and upper bound
 %call SampleNPN(mu,Sigma,NPNEta) for sampling from NPN()
 
-fprintf('start sample Eta for all doc\n');
+fprintf('sampling Eta\n');
 [LowerEta,UpperEta] = SampleBound(LastZ,LastEta);
 [m,k] = size(LastEta);
 Eta = LastEta;

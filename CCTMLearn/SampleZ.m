@@ -13,7 +13,7 @@ V = size(W,2);
 WordTopicCnt = CountWordTopic(LastZ,V,k);
 TopicCnt = sum(WordTopicCnt,1)';
 Z = LastZ;
-fprintf('start to sample Z (word-topic) assignment\n');
+fprintf('sampling Z\n');
 tic;
 for i=1:m
     EtaExp = exp(LastEta(i,:))';
