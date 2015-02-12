@@ -1,6 +1,8 @@
 function [ F ] = TruncECdf(X,x)
 %the trucated ecdf of X. m is the cut point, x is the F(x)
 %can I make this a matrix operation?
+%mtx version:
+    %do it for X(:,i), x(i,1) for each i
 
 m=size(X,1);
 [f,Y] = ecdf(X);

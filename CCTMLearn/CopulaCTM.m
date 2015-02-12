@@ -24,7 +24,7 @@ for ite = 1:MaxIte
     NPNEta = MeanOfSparse3DMtx(lEta);
     [ThisMu,ThisSigma] = NPNFit(NPNEta);
     %add noise at diagnonal to avoid sigularity
-    ThisSigma = ThisSigma + 0.01 * diag(ones(size(ThisSigma,1)));
+    ThisSigma = ThisSigma + 0.01 * diag(ones(size(ThisSigma,1),1));
     MuDiff = sum(abs(ThisMu - mu)) / sum(abs(mu));
     SigmaDiff = sum(sum(abs(ThisSigma - Sigma))) / sum(sum(abs(Sigma)));
     fprintf('[%d] ite diff [%f][%f]\n',ite,MuDiff,SigmaDiff);
